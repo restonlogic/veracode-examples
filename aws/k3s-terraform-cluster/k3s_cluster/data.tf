@@ -5,7 +5,7 @@ data "http" "myip" {
 }
 
 data "aws_ssm_parameter" "remote_state_bucket" {
-  name            = "/tf/${var.global_config.name}/mgmt/tfBucketName"
+  name            = "/tf/${var.global_config.name}/${var.global_config.environment}/tfBucketName"
   with_decryption = true
 }
 

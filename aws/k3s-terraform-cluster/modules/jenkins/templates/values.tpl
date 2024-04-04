@@ -79,7 +79,7 @@ controller:
     - ws-cleanup:latest
     - prometheus:latest
     - http_request:1.16
-    - durable-task:503.v57154d18d478
+    - durable-task:latest
     - veracode-scan:22.6.18.0
     - servicenow-devops:1.38.0
 
