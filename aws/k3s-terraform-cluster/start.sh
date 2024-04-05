@@ -237,7 +237,7 @@ if [ $action = "apply" ]; then
         else
             printf "${GREEN}K3s Kubeconfig has been added to secrets manager successfully!${NC}\n"
             aws secretsmanager --region $REGION get-secret-value --secret-id k3s-kubeconfig-${NAME}-${ENVIRONMENT}-${ORG}-${ENVIRONMENT}-v2 | jq -r '.SecretString' > $k3s_kubeconfig
-            ext_lb_dns=$(aws elbv2 describe-load-balancers --names "k3s-ext-lb-$ENVIRONMENT" | jq -r '.LoadBalancers[].DNSName')
+            ext_lb_dns=$(aws elbv2 --region $REGION describe-load-balancers --names "k3s-ext-lb-$ENVIRONMENT" | jq -r '.LoadBalancers[].DNSName')
             k3s_ext_lb_dns=$(echo https://${ext_lb_dns}:6443)
             yq -i -e ".clusters[].cluster.server = \"$k3s_ext_lb_dns\"" /tmp/k3s_kubeconfig
             export KUBECONFIG=$k3s_kubeconfig
