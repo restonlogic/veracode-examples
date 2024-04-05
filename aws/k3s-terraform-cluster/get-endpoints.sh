@@ -15,7 +15,7 @@ NAME=$(jq '.global_config.name' -r ./manifest.json)
 REGION=$(jq '.global_config.region' -r ./manifest.json)
 ORG=$(jq '.global_config.organization' -r ./manifest.json)
 ENVIRONMENT=$(jq '.global_config.environment' -r ./manifest.json)
-ext_lb_dns=$(aws elbv2 describe-load-balancers --names "k3s-ext-lb-$ENVIRONMENT" | jq -r '.LoadBalancers[].DNSName')
+ext_lb_dns=$(aws elbv2 --region $REGION describe-load-balancers --names "k3s-ext-lb-$ENVIRONMENT" | jq -r '.LoadBalancers[].DNSName')
 
 jenkins_pass=$(aws secretsmanager --region $REGION get-secret-value --secret-id /${NAME}/${ENVIRONMENT}/jenkins-secrets --query SecretString --output text | jq -r '."jenkins-admin-password"')
 skooner_token=$(kubectl get secret -n default skooner-sa-token -o json | jq -r '.data.token' | base64 -d)
